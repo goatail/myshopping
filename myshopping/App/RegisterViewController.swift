@@ -19,6 +19,8 @@ final class RegisterViewController: UIViewController {
 
     private var countdownTimer: Timer?
     private var countdownLeft = 0
+    /// 与常见短信重发间隔一致（若 Android 工程为其他秒数，改此常量即可）
+    private let verificationResendInterval = 60
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -115,12 +117,14 @@ final class RegisterViewController: UIViewController {
 
     private func startCountdown() {
         countdownTimer?.invalidate()
-        countdownLeft = 60
+        countdownLeft = verificationResendInterval
         sendCodeButton.isEnabled = false
         tickCountdown()
-        countdownTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] t in
+        let timer = Timer(timeInterval: 1, repeats: true) { [weak self] t in
             self?.tickCountdown(timer: t)
         }
+        RunLoop.main.add(timer, forMode: .common)
+        countdownTimer = timer
     }
 
     private func tickCountdown(timer: Timer? = nil) {

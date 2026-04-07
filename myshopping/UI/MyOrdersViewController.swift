@@ -23,10 +23,15 @@ final class MyOrdersViewController: UIViewController, UITableViewDataSource {
 
     private var display: [Order] = []
 
+    private let emptyStack = EmptyStateStack.make(
+        title: "暂无订单",
+        subtitle: "试试调整筛选条件或去首页选购商品~"
+    )
+
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "我的订单"
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(white: 0.96, alpha: 1)
 
         keywordField.placeholder = "订单号/商品名"
         keywordField.borderStyle = .roundedRect
@@ -63,8 +68,10 @@ final class MyOrdersViewController: UIViewController, UITableViewDataSource {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 220
         tableView.separatorStyle = .none
+        tableView.backgroundColor = view.backgroundColor
         tableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tableView)
+        view.addSubview(emptyStack)
 
         let guide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
@@ -75,7 +82,10 @@ final class MyOrdersViewController: UIViewController, UITableViewDataSource {
             tableView.topAnchor.constraint(equalTo: stack.bottomAnchor, constant: 8),
             tableView.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: guide.bottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: guide.bottomAnchor),
+
+            emptyStack.centerXAnchor.constraint(equalTo: guide.centerXAnchor),
+            emptyStack.centerYAnchor.constraint(equalTo: guide.centerYAnchor, constant: 40)
         ])
 
         refreshChipStyles()
@@ -148,6 +158,9 @@ final class MyOrdersViewController: UIViewController, UITableViewDataSource {
         }
         display = list
         tableView.reloadData()
+        let empty = display.isEmpty
+        emptyStack.isHidden = !empty
+        tableView.isHidden = empty
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

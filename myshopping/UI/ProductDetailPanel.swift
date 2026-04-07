@@ -62,6 +62,15 @@ private final class ProductDetailOverlay: NSObject {
         price.textColor = UIColor(red: 0.9, green: 0.2, blue: 0.2, alpha: 1)
         price.text = String(format: "¥%.2f", product.price)
 
+        let hero = UIView()
+        hero.translatesAutoresizingMaskIntoConstraints = false
+        hero.clipsToBounds = true
+        if #available(iOS 11.0, *) {
+            hero.layer.cornerRadius = 12
+            hero.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        }
+        ProductCoverStyle.fillCoverView(hero, product: product)
+
         let addBtn = UIButton(type: .system)
         addBtn.setTitle("加入购物车", for: .normal)
         addBtn.backgroundColor = UIColor(red: 1, green: 0.42, blue: 0.2, alpha: 1)
@@ -76,7 +85,12 @@ private final class ProductDetailOverlay: NSObject {
         stack.spacing = 10
         stack.translatesAutoresizingMaskIntoConstraints = false
 
-        panel.addSubview(stack)
+        let outer = UIStackView(arrangedSubviews: [hero, stack])
+        outer.axis = .vertical
+        outer.spacing = 16
+        outer.translatesAutoresizingMaskIntoConstraints = false
+
+        panel.addSubview(outer)
         dim.addSubview(panel)
 
         let guide = host.view.safeAreaLayoutGuide
@@ -85,10 +99,15 @@ private final class ProductDetailOverlay: NSObject {
             panel.trailingAnchor.constraint(equalTo: host.view.trailingAnchor),
             panel.bottomAnchor.constraint(equalTo: host.view.bottomAnchor),
 
-            stack.topAnchor.constraint(equalTo: panel.topAnchor, constant: 16),
-            stack.leadingAnchor.constraint(equalTo: panel.leadingAnchor, constant: 16),
-            stack.trailingAnchor.constraint(equalTo: panel.trailingAnchor, constant: -16),
-            stack.bottomAnchor.constraint(equalTo: guide.bottomAnchor, constant: -12)
+            hero.heightAnchor.constraint(equalToConstant: 140),
+
+            outer.topAnchor.constraint(equalTo: panel.topAnchor),
+            outer.leadingAnchor.constraint(equalTo: panel.leadingAnchor),
+            outer.trailingAnchor.constraint(equalTo: panel.trailingAnchor),
+            outer.bottomAnchor.constraint(equalTo: guide.bottomAnchor, constant: -12),
+
+            stack.leadingAnchor.constraint(equalTo: outer.leadingAnchor, constant: 16),
+            stack.trailingAnchor.constraint(equalTo: outer.trailingAnchor, constant: -16)
         ])
 
         addBtn.heightAnchor.constraint(equalToConstant: 44).isActive = true
@@ -107,9 +126,8 @@ private final class ProductDetailOverlay: NSObject {
     }
 
     @objc private func onAddCart() {
-        guard let product = product else { return }
+        guard let product = product, let host = host else { return }
         CartManager.addToCart(product: product, quantity: 1)
-        guard let host = host else { return }
         let ac = UIAlertController(title: nil, message: "已添加到购物车", preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "确定", style: .default, handler: { [weak self] _ in
             self?.tearDown()

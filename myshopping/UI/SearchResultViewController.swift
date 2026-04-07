@@ -19,6 +19,11 @@ final class SearchResultViewController: UIViewController, UICollectionViewDataSo
     private let applyButton = UIButton(type: .system)
     private var collectionView: UICollectionView!
 
+    private let emptyStack = EmptyStateStack.make(
+        title: "暂无搜索结果",
+        subtitle: "试试调整品牌或价格区间"
+    )
+
     private var selectedBrand: String?
     private var brandOptions: [String] = []
 
@@ -35,7 +40,7 @@ final class SearchResultViewController: UIViewController, UICollectionViewDataSo
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "搜索：\(keyword)"
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(white: 0.96, alpha: 1)
 
         SearchState.setSearchKeyword(keyword)
         SearchState.setLastDisplayedKeyword(keyword)
@@ -72,7 +77,7 @@ final class SearchResultViewController: UIViewController, UICollectionViewDataSo
         layout.minimumLineSpacing = 8
         layout.sectionInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = view.backgroundColor
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(ProductGridCell.self, forCellWithReuseIdentifier: ProductGridCell.reuseId)
@@ -80,6 +85,7 @@ final class SearchResultViewController: UIViewController, UICollectionViewDataSo
 
         view.addSubview(filterStack)
         view.addSubview(collectionView)
+        view.addSubview(emptyStack)
 
         let guide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
@@ -90,7 +96,10 @@ final class SearchResultViewController: UIViewController, UICollectionViewDataSo
             collectionView.topAnchor.constraint(equalTo: filterStack.bottomAnchor, constant: 8),
             collectionView.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: guide.bottomAnchor)
+            collectionView.bottomAnchor.constraint(equalTo: guide.bottomAnchor),
+
+            emptyStack.centerXAnchor.constraint(equalTo: guide.centerXAnchor),
+            emptyStack.centerYAnchor.constraint(equalTo: guide.centerYAnchor, constant: 60)
         ])
 
         applyFilter()
@@ -133,6 +142,9 @@ final class SearchResultViewController: UIViewController, UICollectionViewDataSo
             return true
         }
         collectionView.reloadData()
+        let empty = displayList.isEmpty
+        emptyStack.isHidden = !empty
+        collectionView.isHidden = empty
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

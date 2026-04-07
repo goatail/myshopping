@@ -42,6 +42,8 @@
 		F21E10022F84A14F00FE1FDA /* SearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21E10012F84A14F00FE1FDA /* SearchResultViewController.swift */; };
 		F21F10022F84A14F00FE1FDA /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21F10012F84A14F00FE1FDA /* SearchViewController.swift */; };
 		F22010022F84A14F00FE1FDA /* OrderCardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22010012F84A14F00FE1FDA /* OrderCardTableViewCell.swift */; };
+		F22110022F84A14F00FE1FDA /* CartItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22110012F84A14F00FE1FDA /* CartItemTableViewCell.swift */; };
+		F22210022F84A14F00FE1FDA /* ProductCoverStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22210012F84A14F00FE1FDA /* ProductCoverStyle.swift */; };
 		DF78F3D82F84A14F00FE1FDA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DF78F3D62F84A14F00FE1FDA /* Main.storyboard */; };
 		DF78F3DA2F84A15100FE1FDA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DF78F3D92F84A15100FE1FDA /* Assets.xcassets */; };
 		DF78F3DD2F84A15100FE1FDA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DF78F3DB2F84A15100FE1FDA /* LaunchScreen.storyboard */; };
@@ -84,6 +86,8 @@
 		F21E10012F84A14F00FE1FDA /* SearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/SearchResultViewController.swift"; sourceTree = "<group>"; };
 		F21F10012F84A14F00FE1FDA /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/SearchViewController.swift"; sourceTree = "<group>"; };
 		F22010012F84A14F00FE1FDA /* OrderCardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/OrderCardTableViewCell.swift"; sourceTree = "<group>"; };
+		F22110012F84A14F00FE1FDA /* CartItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/CartItemTableViewCell.swift"; sourceTree = "<group>"; };
+		F22210012F84A14F00FE1FDA /* ProductCoverStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/ProductCoverStyle.swift"; sourceTree = "<group>"; };
 		DF78F3D72F84A14F00FE1FDA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DF78F3D92F84A15100FE1FDA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DF78F3DC2F84A15100FE1FDA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -155,6 +159,8 @@
 				F21E10012F84A14F00FE1FDA /* SearchResultViewController.swift */,
 				F21F10012F84A14F00FE1FDA /* SearchViewController.swift */,
 				F22010012F84A14F00FE1FDA /* OrderCardTableViewCell.swift */,
+				F22110012F84A14F00FE1FDA /* CartItemTableViewCell.swift */,
+				F22210012F84A14F00FE1FDA /* ProductCoverStyle.swift */,
 				DF78F3D62F84A14F00FE1FDA /* Main.storyboard */,
 				DF78F3D92F84A15100FE1FDA /* Assets.xcassets */,
 				DF78F3DB2F84A15100FE1FDA /* LaunchScreen.storyboard */,
@@ -269,6 +275,8 @@
 				F21E10022F84A14F00FE1FDA /* SearchResultViewController.swift in Sources */,
 				F21F10022F84A14F00FE1FDA /* SearchViewController.swift in Sources */,
 				F22010022F84A14F00FE1FDA /* OrderCardTableViewCell.swift in Sources */,
+				F22110022F84A14F00FE1FDA /* CartItemTableViewCell.swift in Sources */,
+				F22210022F84A14F00FE1FDA /* ProductCoverStyle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

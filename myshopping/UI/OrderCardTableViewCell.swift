@@ -107,8 +107,9 @@ final class OrderCardTableViewCell: UITableViewCell {
         let p = item.product
         let thumb = UIView()
         thumb.translatesAutoresizingMaskIntoConstraints = false
-        thumb.backgroundColor = UIColor(hue: CGFloat(abs(p.id.hashValue % 1000)) / 1000.0, saturation: 0.3, brightness: 0.92, alpha: 1)
         thumb.layer.cornerRadius = 4
+        thumb.clipsToBounds = true
+        ProductCoverStyle.fillCoverView(thumb, product: p)
         thumb.widthAnchor.constraint(equalToConstant: 48).isActive = true
         thumb.heightAnchor.constraint(equalToConstant: 48).isActive = true
 

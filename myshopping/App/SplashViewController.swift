@@ -30,6 +30,7 @@ final class SplashViewController: UIViewController {
         super.viewDidAppear(animated)
         DispatchQueue.main.asyncAfter(deadline: .now() + delaySeconds) { [weak self] in
             guard let self = self else { return }
+            // 未登录仅进入登录栈；不开放游客进主页（业务入口仅此一处）
             let next: UIViewController
             if UserManager.isLoggedIn() {
                 next = MainTabBarController()

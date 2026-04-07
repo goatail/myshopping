@@ -9,6 +9,8 @@ import UIKit
 
 final class MainTabBarController: UITabBarController {
 
+    private var cartObserver: NSObjectProtocol?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         delegate = self
@@ -25,6 +27,28 @@ final class MainTabBarController: UITabBarController {
         profileNav.tabBarItem = makeTabItem(title: "我的", systemName: "person", tag: 3)
 
         viewControllers = [homeNav, favNav, cartNav, profileNav]
+
+        cartObserver = NotificationCenter.default.addObserver(
+            forName: CartManager.cartDidChangeNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            self?.updateCartTabBadge()
+        }
+        updateCartTabBadge()
+    }
+
+    deinit {
+        if let o = cartObserver {
+            NotificationCenter.default.removeObserver(o)
+        }
+    }
+
+    /// 购物车 Tab 显示种类数量角标（与常见电商一致）
+    private func updateCartTabBadge() {
+        let n = CartManager.cartLineCount()
+        guard let items = tabBar.items, items.count > 2 else { return }
+        items[2].badgeValue = n > 0 ? "\(n)" : nil
     }
 
     private func makeTabItem(title: String, systemName: String, tag: Int) -> UITabBarItem {

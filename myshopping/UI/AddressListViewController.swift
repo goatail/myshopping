@@ -12,22 +12,30 @@ final class AddressListViewController: UIViewController, UITableViewDataSource, 
     var onPick: ((String) -> Void)?
     private let selectMode: Bool
     private let tableView = UITableView(frame: .zero, style: .plain)
+    private let emptyStack: UIStackView
     private var addresses: [Address] = []
 
     init(selectMode: Bool) {
         self.selectMode = selectMode
+        self.emptyStack = EmptyStateStack.make(
+            title: "暂无收货地址",
+            subtitle: selectMode
+                ? "请先在「我的 → 收货地址」中添加地址"
+                : "点击右上角「+」添加新地址"
+        )
         super.init(nibName: nil, bundle: nil)
     }
 
     required init?(coder: NSCoder) {
         self.selectMode = false
+        self.emptyStack = EmptyStateStack.make(title: "", subtitle: "")
         super.init(coder: coder)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         title = selectMode ? "选择收货地址" : "收货地址"
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(white: 0.96, alpha: 1)
 
         // 与 Android AddressListActivity：选择模式下隐藏 FAB（新增）
         if !selectMode {
@@ -37,15 +45,20 @@ final class AddressListViewController: UIViewController, UITableViewDataSource, 
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "a")
+        tableView.backgroundColor = view.backgroundColor
         tableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tableView)
+        view.addSubview(emptyStack)
 
         let guide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: guide.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: guide.bottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: guide.bottomAnchor),
+
+            emptyStack.centerXAnchor.constraint(equalTo: guide.centerXAnchor),
+            emptyStack.centerYAnchor.constraint(equalTo: guide.centerYAnchor)
         ])
     }
 
@@ -53,6 +66,9 @@ final class AddressListViewController: UIViewController, UITableViewDataSource, 
         super.viewWillAppear(animated)
         addresses = AddressManager.getAllAddresses()
         tableView.reloadData()
+        let empty = addresses.isEmpty
+        emptyStack.isHidden = !empty
+        tableView.isHidden = empty
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

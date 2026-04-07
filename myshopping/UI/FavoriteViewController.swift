@@ -13,12 +13,15 @@ final class FavoriteViewController: UIViewController, UICollectionViewDataSource
     private var products: [Product] = []
     private var manageMode = false
     private let manageButton = UIButton(type: .system)
-    private let emptyLabel = UILabel()
+    private let emptyStack = EmptyStateStack.make(
+        title: "暂无收藏",
+        subtitle: "快去首页逛逛吧~"
+    )
 
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "收藏"
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(white: 0.96, alpha: 1)
 
         manageButton.setTitle("管理收藏", for: .normal)
         manageButton.addTarget(self, action: #selector(toggleManage), for: .touchUpInside)
@@ -29,20 +32,15 @@ final class FavoriteViewController: UIViewController, UICollectionViewDataSource
         layout.minimumLineSpacing = 8
         layout.sectionInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = view.backgroundColor
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(ProductGridCell.self, forCellWithReuseIdentifier: ProductGridCell.reuseId)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
 
-        emptyLabel.text = "暂无收藏"
-        emptyLabel.textAlignment = .center
-        emptyLabel.textColor = .gray
-        emptyLabel.translatesAutoresizingMaskIntoConstraints = false
-
         view.addSubview(manageButton)
         view.addSubview(collectionView)
-        view.addSubview(emptyLabel)
+        view.addSubview(emptyStack)
 
         let guide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
@@ -52,8 +50,8 @@ final class FavoriteViewController: UIViewController, UICollectionViewDataSource
             collectionView.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: guide.bottomAnchor),
-            emptyLabel.centerXAnchor.constraint(equalTo: guide.centerXAnchor),
-            emptyLabel.centerYAnchor.constraint(equalTo: guide.centerYAnchor)
+            emptyStack.centerXAnchor.constraint(equalTo: guide.centerXAnchor),
+            emptyStack.centerYAnchor.constraint(equalTo: guide.centerYAnchor)
         ])
     }
 
@@ -66,7 +64,7 @@ final class FavoriteViewController: UIViewController, UICollectionViewDataSource
         products = FavoriteManager.getFavoriteProducts()
         collectionView.reloadData()
         let empty = products.isEmpty
-        emptyLabel.isHidden = !empty
+        emptyStack.isHidden = !empty
         collectionView.isHidden = empty
         manageButton.isHidden = empty
         if empty {

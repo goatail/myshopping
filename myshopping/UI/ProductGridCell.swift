@@ -30,6 +30,7 @@ final class ProductGridCell: UICollectionViewCell {
         contentView.clipsToBounds = true
 
         tapContainer.translatesAutoresizingMaskIntoConstraints = false
+        coverView.clipsToBounds = true
         coverView.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = UIFont.systemFont(ofSize: 12)
         titleLabel.numberOfLines = 2
@@ -101,8 +102,7 @@ final class ProductGridCell: UICollectionViewCell {
         metaLabel.text = "\(product.viewsCount) · \(product.transactionCount)"
         priceLabel.text = String(format: "¥%.2f", product.price)
 
-        let hue = CGFloat(abs(product.id.hashValue % 1000)) / 1000.0
-        coverView.backgroundColor = UIColor(hue: hue, saturation: 0.35, brightness: 0.92, alpha: 1)
+        ProductCoverStyle.fillCoverView(coverView, product: product)
 
         favoriteButton.isHidden = !showFavorite
         let fav = FavoriteManager.isFavorite(productId: product.id)

@@ -2,7 +2,7 @@
 //  CheckoutViewController.swift
 //  myshopping
 //
-//  对应 Android CheckoutActivity
+//  对应 Android CheckoutActivity：结算前校验地址与购物车（未登录仅见登录页，由 Splash 保证）
 //
 
 import UIKit
@@ -19,12 +19,14 @@ final class CheckoutViewController: UIViewController {
     private let itemsStack = UIStackView()
     private let submitButton = UIButton(type: .system)
 
+    private let emptyWrapper = UIStackView()
+
     private var currentAddress: Address?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "结算"
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(white: 0.96, alpha: 1)
 
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         contentStack.axis = .vertical
@@ -35,7 +37,7 @@ final class CheckoutViewController: UIViewController {
 
         addressLabel.numberOfLines = 0
         addressLabel.font = UIFont.systemFont(ofSize: 14)
-        noAddressLabel.text = "暂无收货地址，点击添加"
+        noAddressLabel.text = "暂无收货地址，点击选择"
         noAddressLabel.textColor = .gray
         noAddressLabel.textAlignment = .center
 
@@ -72,6 +74,25 @@ final class CheckoutViewController: UIViewController {
         contentStack.addArrangedSubview(itemsStack)
         contentStack.addArrangedSubview(submitButton)
 
+        let textBlock = EmptyStateStack.make(
+            title: "暂无待结算商品",
+            subtitle: "购物车暂无商品，请先加购后再结算"
+        )
+        textBlock.isHidden = false
+
+        let backBtn = UIButton(type: .system)
+        backBtn.setTitle("返回购物车", for: .normal)
+        backBtn.addTarget(self, action: #selector(popSelf), for: .touchUpInside)
+
+        emptyWrapper.axis = .vertical
+        emptyWrapper.spacing = 20
+        emptyWrapper.alignment = .center
+        emptyWrapper.addArrangedSubview(textBlock)
+        emptyWrapper.addArrangedSubview(backBtn)
+        emptyWrapper.translatesAutoresizingMaskIntoConstraints = false
+        emptyWrapper.isHidden = true
+        view.addSubview(emptyWrapper)
+
         let guide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: guide.topAnchor),
@@ -83,17 +104,32 @@ final class CheckoutViewController: UIViewController {
             contentStack.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 12),
             contentStack.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor, constant: -12),
             contentStack.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -12),
-            contentStack.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor, constant: -24)
+            contentStack.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor, constant: -24),
+
+            emptyWrapper.centerXAnchor.constraint(equalTo: guide.centerXAnchor),
+            emptyWrapper.centerYAnchor.constraint(equalTo: guide.centerYAnchor)
         ])
 
         rebuildItems()
         refreshAddress()
+        refreshCheckoutEmptyState()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         refreshAddress()
         rebuildItems()
+        refreshCheckoutEmptyState()
+    }
+
+    private func refreshCheckoutEmptyState() {
+        let empty = CartManager.getCartItems().isEmpty
+        emptyWrapper.isHidden = !empty
+        scrollView.isHidden = empty
+    }
+
+    @objc private func popSelf() {
+        navigationController?.popViewController(animated: true)
     }
 
     private func rebuildItems() {
@@ -140,6 +176,7 @@ final class CheckoutViewController: UIViewController {
     }
 
     @objc private func selectAddress() {
+        guard !CartManager.getCartItems().isEmpty else { return }
         let list = AddressListViewController(selectMode: true)
         list.onPick = { [weak self] id in
             self?.currentAddress = AddressManager.getAddressById(id)
@@ -158,7 +195,10 @@ final class CheckoutViewController: UIViewController {
         }
         guard let addr = currentAddress ?? AddressManager.getDefaultAddress() else {
             let ac = UIAlertController(title: nil, message: "请选择收货地址", preferredStyle: .alert)
-            ac.addAction(UIAlertAction(title: "确定", style: .default))
+            ac.addAction(UIAlertAction(title: "去选择", style: .default, handler: { [weak self] _ in
+                self?.selectAddress()
+            }))
+            ac.addAction(UIAlertAction(title: "取消", style: .cancel))
             present(ac, animated: true)
             return
         }

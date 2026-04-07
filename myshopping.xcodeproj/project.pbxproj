@@ -9,7 +9,39 @@
 /* Begin PBXBuildFile section */
 		DF78F3D12F84A14F00FE1FDA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF78F3D02F84A14F00FE1FDA /* AppDelegate.swift */; };
 		DF78F3D32F84A14F00FE1FDA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF78F3D22F84A14F00FE1FDA /* SceneDelegate.swift */; };
-		DF78F3D52F84A14F00FE1FDA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF78F3D42F84A14F00FE1FDA /* ViewController.swift */; };
+		F20010022F84A14F00FE1FDA /* LoginFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20010012F84A14F00FE1FDA /* LoginFlow.swift */; };
+		F20110022F84A14F00FE1FDA /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20110012F84A14F00FE1FDA /* LoginViewController.swift */; };
+		F20210022F84A14F00FE1FDA /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20210012F84A14F00FE1FDA /* MainTabBarController.swift */; };
+		F20310022F84A14F00FE1FDA /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20310012F84A14F00FE1FDA /* RegisterViewController.swift */; };
+		F20410022F84A14F00FE1FDA /* RootSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20410012F84A14F00FE1FDA /* RootSwitcher.swift */; };
+		F20510022F84A14F00FE1FDA /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20510012F84A14F00FE1FDA /* SplashViewController.swift */; };
+		F20610022F84A14F00FE1FDA /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20610012F84A14F00FE1FDA /* Address.swift */; };
+		F20710022F84A14F00FE1FDA /* CartItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20710012F84A14F00FE1FDA /* CartItem.swift */; };
+		F20810022F84A14F00FE1FDA /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20810012F84A14F00FE1FDA /* Order.swift */; };
+		F20910022F84A14F00FE1FDA /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20910012F84A14F00FE1FDA /* Product.swift */; };
+		F20A10022F84A14F00FE1FDA /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20A10012F84A14F00FE1FDA /* User.swift */; };
+		F20B10022F84A14F00FE1FDA /* AddressManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20B10012F84A14F00FE1FDA /* AddressManager.swift */; };
+		F20C10022F84A14F00FE1FDA /* CartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20C10012F84A14F00FE1FDA /* CartManager.swift */; };
+		F20D10022F84A14F00FE1FDA /* DataGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20D10012F84A14F00FE1FDA /* DataGenerator.swift */; };
+		F20E10022F84A14F00FE1FDA /* FavoriteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20E10012F84A14F00FE1FDA /* FavoriteManager.swift */; };
+		F20F10022F84A14F00FE1FDA /* OrderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20F10012F84A14F00FE1FDA /* OrderManager.swift */; };
+		F21010022F84A14F00FE1FDA /* SearchState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21010012F84A14F00FE1FDA /* SearchState.swift */; };
+		F21110022F84A14F00FE1FDA /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21110012F84A14F00FE1FDA /* UserManager.swift */; };
+		F21210022F84A14F00FE1FDA /* AddressEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21210012F84A14F00FE1FDA /* AddressEditViewController.swift */; };
+		F21310022F84A14F00FE1FDA /* AddressListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21310012F84A14F00FE1FDA /* AddressListViewController.swift */; };
+		F21410022F84A14F00FE1FDA /* CartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21410012F84A14F00FE1FDA /* CartViewController.swift */; };
+		F21510022F84A14F00FE1FDA /* CategoryProductsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21510012F84A14F00FE1FDA /* CategoryProductsViewController.swift */; };
+		F21610022F84A14F00FE1FDA /* CheckoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21610012F84A14F00FE1FDA /* CheckoutViewController.swift */; };
+		F21710022F84A14F00FE1FDA /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21710012F84A14F00FE1FDA /* FavoriteViewController.swift */; };
+		F21810022F84A14F00FE1FDA /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21810012F84A14F00FE1FDA /* HomeViewController.swift */; };
+		F21910022F84A14F00FE1FDA /* MyOrdersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21910012F84A14F00FE1FDA /* MyOrdersViewController.swift */; };
+		F21A10022F84A14F00FE1FDA /* OrdersListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21A10012F84A14F00FE1FDA /* OrdersListViewController.swift */; };
+		F21B10022F84A14F00FE1FDA /* ProductDetailPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21B10012F84A14F00FE1FDA /* ProductDetailPanel.swift */; };
+		F21C10022F84A14F00FE1FDA /* ProductGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21C10012F84A14F00FE1FDA /* ProductGridCell.swift */; };
+		F21D10022F84A14F00FE1FDA /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21D10012F84A14F00FE1FDA /* ProfileViewController.swift */; };
+		F21E10022F84A14F00FE1FDA /* SearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21E10012F84A14F00FE1FDA /* SearchResultViewController.swift */; };
+		F21F10022F84A14F00FE1FDA /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21F10012F84A14F00FE1FDA /* SearchViewController.swift */; };
+		F22010022F84A14F00FE1FDA /* OrderCardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22010012F84A14F00FE1FDA /* OrderCardTableViewCell.swift */; };
 		DF78F3D82F84A14F00FE1FDA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DF78F3D62F84A14F00FE1FDA /* Main.storyboard */; };
 		DF78F3DA2F84A15100FE1FDA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DF78F3D92F84A15100FE1FDA /* Assets.xcassets */; };
 		DF78F3DD2F84A15100FE1FDA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DF78F3DB2F84A15100FE1FDA /* LaunchScreen.storyboard */; };
@@ -19,7 +51,39 @@
 		DF78F3CD2F84A14F00FE1FDA /* myshopping.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = myshopping.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF78F3D02F84A14F00FE1FDA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DF78F3D22F84A14F00FE1FDA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		DF78F3D42F84A14F00FE1FDA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		F20010012F84A14F00FE1FDA /* LoginFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/LoginFlow.swift"; sourceTree = "<group>"; };
+		F20110012F84A14F00FE1FDA /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/LoginViewController.swift"; sourceTree = "<group>"; };
+		F20210012F84A14F00FE1FDA /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/MainTabBarController.swift"; sourceTree = "<group>"; };
+		F20310012F84A14F00FE1FDA /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/RegisterViewController.swift"; sourceTree = "<group>"; };
+		F20410012F84A14F00FE1FDA /* RootSwitcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/RootSwitcher.swift"; sourceTree = "<group>"; };
+		F20510012F84A14F00FE1FDA /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/SplashViewController.swift"; sourceTree = "<group>"; };
+		F20610012F84A14F00FE1FDA /* Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Model/Address.swift"; sourceTree = "<group>"; };
+		F20710012F84A14F00FE1FDA /* CartItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Model/CartItem.swift"; sourceTree = "<group>"; };
+		F20810012F84A14F00FE1FDA /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Model/Order.swift"; sourceTree = "<group>"; };
+		F20910012F84A14F00FE1FDA /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Model/Product.swift"; sourceTree = "<group>"; };
+		F20A10012F84A14F00FE1FDA /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Model/User.swift"; sourceTree = "<group>"; };
+		F20B10012F84A14F00FE1FDA /* AddressManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Service/AddressManager.swift"; sourceTree = "<group>"; };
+		F20C10012F84A14F00FE1FDA /* CartManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Service/CartManager.swift"; sourceTree = "<group>"; };
+		F20D10012F84A14F00FE1FDA /* DataGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Service/DataGenerator.swift"; sourceTree = "<group>"; };
+		F20E10012F84A14F00FE1FDA /* FavoriteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Service/FavoriteManager.swift"; sourceTree = "<group>"; };
+		F20F10012F84A14F00FE1FDA /* OrderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Service/OrderManager.swift"; sourceTree = "<group>"; };
+		F21010012F84A14F00FE1FDA /* SearchState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Service/SearchState.swift"; sourceTree = "<group>"; };
+		F21110012F84A14F00FE1FDA /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Service/UserManager.swift"; sourceTree = "<group>"; };
+		F21210012F84A14F00FE1FDA /* AddressEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/AddressEditViewController.swift"; sourceTree = "<group>"; };
+		F21310012F84A14F00FE1FDA /* AddressListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/AddressListViewController.swift"; sourceTree = "<group>"; };
+		F21410012F84A14F00FE1FDA /* CartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/CartViewController.swift"; sourceTree = "<group>"; };
+		F21510012F84A14F00FE1FDA /* CategoryProductsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/CategoryProductsViewController.swift"; sourceTree = "<group>"; };
+		F21610012F84A14F00FE1FDA /* CheckoutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/CheckoutViewController.swift"; sourceTree = "<group>"; };
+		F21710012F84A14F00FE1FDA /* FavoriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/FavoriteViewController.swift"; sourceTree = "<group>"; };
+		F21810012F84A14F00FE1FDA /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/HomeViewController.swift"; sourceTree = "<group>"; };
+		F21910012F84A14F00FE1FDA /* MyOrdersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/MyOrdersViewController.swift"; sourceTree = "<group>"; };
+		F21A10012F84A14F00FE1FDA /* OrdersListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/OrdersListViewController.swift"; sourceTree = "<group>"; };
+		F21B10012F84A14F00FE1FDA /* ProductDetailPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/ProductDetailPanel.swift"; sourceTree = "<group>"; };
+		F21C10012F84A14F00FE1FDA /* ProductGridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/ProductGridCell.swift"; sourceTree = "<group>"; };
+		F21D10012F84A14F00FE1FDA /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/ProfileViewController.swift"; sourceTree = "<group>"; };
+		F21E10012F84A14F00FE1FDA /* SearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/SearchResultViewController.swift"; sourceTree = "<group>"; };
+		F21F10012F84A14F00FE1FDA /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/SearchViewController.swift"; sourceTree = "<group>"; };
+		F22010012F84A14F00FE1FDA /* OrderCardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/OrderCardTableViewCell.swift"; sourceTree = "<group>"; };
 		DF78F3D72F84A14F00FE1FDA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DF78F3D92F84A15100FE1FDA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DF78F3DC2F84A15100FE1FDA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -58,7 +122,39 @@
 			children = (
 				DF78F3D02F84A14F00FE1FDA /* AppDelegate.swift */,
 				DF78F3D22F84A14F00FE1FDA /* SceneDelegate.swift */,
-				DF78F3D42F84A14F00FE1FDA /* ViewController.swift */,
+				F20010012F84A14F00FE1FDA /* LoginFlow.swift */,
+				F20110012F84A14F00FE1FDA /* LoginViewController.swift */,
+				F20210012F84A14F00FE1FDA /* MainTabBarController.swift */,
+				F20310012F84A14F00FE1FDA /* RegisterViewController.swift */,
+				F20410012F84A14F00FE1FDA /* RootSwitcher.swift */,
+				F20510012F84A14F00FE1FDA /* SplashViewController.swift */,
+				F20610012F84A14F00FE1FDA /* Address.swift */,
+				F20710012F84A14F00FE1FDA /* CartItem.swift */,
+				F20810012F84A14F00FE1FDA /* Order.swift */,
+				F20910012F84A14F00FE1FDA /* Product.swift */,
+				F20A10012F84A14F00FE1FDA /* User.swift */,
+				F20B10012F84A14F00FE1FDA /* AddressManager.swift */,
+				F20C10012F84A14F00FE1FDA /* CartManager.swift */,
+				F20D10012F84A14F00FE1FDA /* DataGenerator.swift */,
+				F20E10012F84A14F00FE1FDA /* FavoriteManager.swift */,
+				F20F10012F84A14F00FE1FDA /* OrderManager.swift */,
+				F21010012F84A14F00FE1FDA /* SearchState.swift */,
+				F21110012F84A14F00FE1FDA /* UserManager.swift */,
+				F21210012F84A14F00FE1FDA /* AddressEditViewController.swift */,
+				F21310012F84A14F00FE1FDA /* AddressListViewController.swift */,
+				F21410012F84A14F00FE1FDA /* CartViewController.swift */,
+				F21510012F84A14F00FE1FDA /* CategoryProductsViewController.swift */,
+				F21610012F84A14F00FE1FDA /* CheckoutViewController.swift */,
+				F21710012F84A14F00FE1FDA /* FavoriteViewController.swift */,
+				F21810012F84A14F00FE1FDA /* HomeViewController.swift */,
+				F21910012F84A14F00FE1FDA /* MyOrdersViewController.swift */,
+				F21A10012F84A14F00FE1FDA /* OrdersListViewController.swift */,
+				F21B10012F84A14F00FE1FDA /* ProductDetailPanel.swift */,
+				F21C10012F84A14F00FE1FDA /* ProductGridCell.swift */,
+				F21D10012F84A14F00FE1FDA /* ProfileViewController.swift */,
+				F21E10012F84A14F00FE1FDA /* SearchResultViewController.swift */,
+				F21F10012F84A14F00FE1FDA /* SearchViewController.swift */,
+				F22010012F84A14F00FE1FDA /* OrderCardTableViewCell.swift */,
 				DF78F3D62F84A14F00FE1FDA /* Main.storyboard */,
 				DF78F3D92F84A15100FE1FDA /* Assets.xcassets */,
 				DF78F3DB2F84A15100FE1FDA /* LaunchScreen.storyboard */,
@@ -138,9 +234,41 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DF78F3D52F84A14F00FE1FDA /* ViewController.swift in Sources */,
 				DF78F3D12F84A14F00FE1FDA /* AppDelegate.swift in Sources */,
 				DF78F3D32F84A14F00FE1FDA /* SceneDelegate.swift in Sources */,
+				F20010022F84A14F00FE1FDA /* LoginFlow.swift in Sources */,
+				F20110022F84A14F00FE1FDA /* LoginViewController.swift in Sources */,
+				F20210022F84A14F00FE1FDA /* MainTabBarController.swift in Sources */,
+				F20310022F84A14F00FE1FDA /* RegisterViewController.swift in Sources */,
+				F20410022F84A14F00FE1FDA /* RootSwitcher.swift in Sources */,
+				F20510022F84A14F00FE1FDA /* SplashViewController.swift in Sources */,
+				F20610022F84A14F00FE1FDA /* Address.swift in Sources */,
+				F20710022F84A14F00FE1FDA /* CartItem.swift in Sources */,
+				F20810022F84A14F00FE1FDA /* Order.swift in Sources */,
+				F20910022F84A14F00FE1FDA /* Product.swift in Sources */,
+				F20A10022F84A14F00FE1FDA /* User.swift in Sources */,
+				F20B10022F84A14F00FE1FDA /* AddressManager.swift in Sources */,
+				F20C10022F84A14F00FE1FDA /* CartManager.swift in Sources */,
+				F20D10022F84A14F00FE1FDA /* DataGenerator.swift in Sources */,
+				F20E10022F84A14F00FE1FDA /* FavoriteManager.swift in Sources */,
+				F20F10022F84A14F00FE1FDA /* OrderManager.swift in Sources */,
+				F21010022F84A14F00FE1FDA /* SearchState.swift in Sources */,
+				F21110022F84A14F00FE1FDA /* UserManager.swift in Sources */,
+				F21210022F84A14F00FE1FDA /* AddressEditViewController.swift in Sources */,
+				F21310022F84A14F00FE1FDA /* AddressListViewController.swift in Sources */,
+				F21410022F84A14F00FE1FDA /* CartViewController.swift in Sources */,
+				F21510022F84A14F00FE1FDA /* CategoryProductsViewController.swift in Sources */,
+				F21610022F84A14F00FE1FDA /* CheckoutViewController.swift in Sources */,
+				F21710022F84A14F00FE1FDA /* FavoriteViewController.swift in Sources */,
+				F21810022F84A14F00FE1FDA /* HomeViewController.swift in Sources */,
+				F21910022F84A14F00FE1FDA /* MyOrdersViewController.swift in Sources */,
+				F21A10022F84A14F00FE1FDA /* OrdersListViewController.swift in Sources */,
+				F21B10022F84A14F00FE1FDA /* ProductDetailPanel.swift in Sources */,
+				F21C10022F84A14F00FE1FDA /* ProductGridCell.swift in Sources */,
+				F21D10022F84A14F00FE1FDA /* ProfileViewController.swift in Sources */,
+				F21E10022F84A14F00FE1FDA /* SearchResultViewController.swift in Sources */,
+				F21F10022F84A14F00FE1FDA /* SearchViewController.swift in Sources */,
+				F22010022F84A14F00FE1FDA /* OrderCardTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

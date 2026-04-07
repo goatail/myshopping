@@ -2,8 +2,8 @@
 //  ProductCoverStyle.swift
 //  myshopping
 //
-//  商品封面占位：与 DataGenerator.imageIndex 对应，列表/购物车/详情统一；
-//  若在 Assets 中提供 `product_cover_<imageIndex>` 图片则优先显示，否则使用占位色。
+//  商品封面：与 Android drawable 一致（mobile_x / pc_x / outdoor_x / cloth_x / food_x，下标从 1 起）；
+//  `Product.imageIndex` 为各类目内 0 起始下标，映射为资源名 `前缀_(imageIndex+1)`。
 //
 
 import UIKit
@@ -12,9 +12,19 @@ enum ProductCoverStyle {
 
     private static let coverImageTag = 9_001
 
-    /// Assets 命名：`product_cover_0`、`product_cover_1` … 与 `Product.imageIndex` 一致
+    /// 与 MyShoppingAndroid `res/drawable` 命名一致，例如手机类 `mobile_1` … `mobile_6`
     static func coverAssetName(for product: Product) -> String {
-        return "product_cover_\(product.imageIndex)"
+        let prefix: String
+        switch product.category {
+        case "手机": prefix = "mobile"
+        case "电脑": prefix = "pc"
+        case "户外": prefix = "outdoor"
+        case "衣服": prefix = "cloth"
+        case "零食": prefix = "food"
+        default: prefix = "mobile"
+        }
+        let n = product.imageIndex + 1
+        return "\(prefix)_\(n)"
     }
 
     /// 由 DataGenerator 写入的 imageIndex 生成稳定占位色

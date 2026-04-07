@@ -222,6 +222,9 @@ final class ProfileViewController: UIViewController {
         scroll.translatesAutoresizingMaskIntoConstraints = false
         scroll.showsHorizontalScrollIndicator = false
         scroll.alwaysBounceHorizontal = true
+        // 避免 ScrollView 抢占点击导致“点不到/不触发”
+        scroll.delaysContentTouches = false
+        scroll.canCancelContentTouches = true
         scroll.addSubview(shortcuts)
         NSLayoutConstraint.activate([
             shortcuts.topAnchor.constraint(equalTo: scroll.contentLayoutGuide.topAnchor),
@@ -241,16 +244,20 @@ final class ProfileViewController: UIViewController {
             stack.topAnchor.constraint(equalTo: cardOrders.topAnchor, constant: 12),
             stack.leadingAnchor.constraint(equalTo: cardOrders.leadingAnchor, constant: 12),
             stack.trailingAnchor.constraint(equalTo: cardOrders.trailingAnchor, constant: -12),
-            stack.bottomAnchor.constraint(equalTo: cardOrders.bottomAnchor, constant: -12)
+            stack.bottomAnchor.constraint(equalTo: cardOrders.bottomAnchor, constant: -12),
+            // 固定滚动区域高度，保证按钮有稳定命中区域（小屏也不挤压到 0）
+            scroll.heightAnchor.constraint(equalToConstant: 84)
         ])
     }
 
     private func makeOrderShortcut(countLabel: UILabel, text: String, action: Selector) -> UIControl {
-        let control = UIControl()
+        // 用 UIButton（比 UIControl 更符合点击语义，触发更稳定）
+        let control = UIButton(type: .system)
         control.addTarget(self, action: action, for: .touchUpInside)
         control.isExclusiveTouch = true
         control.layer.cornerRadius = 8
         control.backgroundColor = UIColor(white: 0.98, alpha: 1)
+        control.clipsToBounds = true
 
         countLabel.text = "0"
         countLabel.font = UIFont.boldSystemFont(ofSize: 18)

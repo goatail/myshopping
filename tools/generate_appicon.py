@@ -8,11 +8,19 @@ def px(size: float, scale: int) -> int:
 
 
 def main() -> None:
-    src = r"f:\testflow-release\myshopping\myshoppingios\MyShoppingAndroid\app\src\main\ic_launcher-playstore.png"
+    # Android 自适应图标：前景是透明 PNG/WebP + 背景色。
+    # iOS AppIcon 需要不透明，这里用“前景图层 + 纯白底”来去除 Android 的绿色背景。
+    foreground = r"f:\testflow-release\myshopping\myshoppingios\MyShoppingAndroid\app\src\main\res\mipmap-xxxhdpi\ic_launcher_foreground.webp"
     dst_dir = r"f:\testflow-release\myshopping\myshoppingios\myshopping\Assets.xcassets\AppIcon.appiconset"
     os.makedirs(dst_dir, exist_ok=True)
 
-    im = Image.open(src).convert("RGBA")
+    fg = Image.open(foreground).convert("RGBA")
+
+    # 先合成 1024 的母图（白底 + 前景居中铺满）
+    base = Image.new("RGBA", (1024, 1024), (255, 255, 255, 255))
+    fg_1024 = fg.resize((1024, 1024), Image.Resampling.LANCZOS)
+    base.alpha_composite(fg_1024)
+    im = base
 
     # iOS AppIcon set (common Xcode template)
     specs: list[tuple[str, float, int]] = [

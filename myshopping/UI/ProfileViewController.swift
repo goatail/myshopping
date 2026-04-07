@@ -278,6 +278,8 @@ final class ProfileViewController: UIViewController {
         stack.spacing = 4
         stack.alignment = .center
         stack.translatesAutoresizingMaskIntoConstraints = false
+        // 关键：让触摸命中落在按钮本体上，而不是被 UIStackView 吃掉
+        stack.isUserInteractionEnabled = false
         control.addSubview(stack)
         NSLayoutConstraint.activate([
             // 点击区域与内容都填满，避免“点不到”

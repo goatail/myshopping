@@ -22,6 +22,7 @@ final class HomeViewController: UIViewController, UIPageViewControllerDataSource
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        // 导航栏不显示标题；`title` 会同步到底部 Tab 文字，需在 viewWillAppear 写回 tabBarItem.title
         title = ""
         view.backgroundColor = UIColor(white: 0.96, alpha: 1)
         setupSearchHeader()
@@ -30,6 +31,7 @@ final class HomeViewController: UIViewController, UIPageViewControllerDataSource
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.tabBarItem?.title = "首页"
         updateSearchHint()
         // 与 Android HomeFragment 一致：有待应用的关键词时切到第一个分类（手机）并刷新列表
         syncFirstCategoryForPendingSearch()

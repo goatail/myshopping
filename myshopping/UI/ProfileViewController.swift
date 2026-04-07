@@ -16,6 +16,7 @@ final class ProfileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        // 导航栏不显示标题；底部 Tab 文案在 viewWillAppear 恢复
         title = ""
         view.backgroundColor = UIColor(white: 0.96, alpha: 1)
 
@@ -86,6 +87,7 @@ final class ProfileViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.tabBarItem?.title = "我的"
         refreshUser()
         buildOrderShortcuts()
     }

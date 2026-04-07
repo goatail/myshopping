@@ -20,7 +20,7 @@ final class FavoriteViewController: UIViewController, UICollectionViewDataSource
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "收藏"
+        title = ""
         view.backgroundColor = UIColor(white: 0.96, alpha: 1)
 
         manageButton.setTitle("管理收藏", for: .normal)

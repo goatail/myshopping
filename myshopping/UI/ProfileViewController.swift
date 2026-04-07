@@ -16,7 +16,7 @@ final class ProfileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "我的"
+        title = ""
         view.backgroundColor = UIColor(white: 0.96, alpha: 1)
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "设置", style: .plain, target: self, action: #selector(openSettings))

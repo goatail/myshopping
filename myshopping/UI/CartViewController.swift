@@ -21,7 +21,7 @@ final class CartViewController: UIViewController, UITableViewDataSource, UITable
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "购物车"
+        title = ""
         view.backgroundColor = UIColor(white: 0.96, alpha: 1)
 
         totalLabel.font = UIFont.boldSystemFont(ofSize: 18)

@@ -22,7 +22,7 @@ final class HomeViewController: UIViewController, UIPageViewControllerDataSource
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "首页"
+        title = ""
         view.backgroundColor = UIColor(white: 0.96, alpha: 1)
         setupSearchHeader()
         setupPages()

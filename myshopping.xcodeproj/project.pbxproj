@@ -13,6 +13,7 @@
 		F20110022F84A14F00FE1FDA /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20110012F84A14F00FE1FDA /* LoginViewController.swift */; };
 		F20210022F84A14F00FE1FDA /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20210012F84A14F00FE1FDA /* MainTabBarController.swift */; };
 		F20310022F84A14F00FE1FDA /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20310012F84A14F00FE1FDA /* RegisterViewController.swift */; };
+		F22510022F84A14F00FE1FDA /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22510012F84A14F00FE1FDA /* Theme.swift */; };
 		F20410022F84A14F00FE1FDA /* RootSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20410012F84A14F00FE1FDA /* RootSwitcher.swift */; };
 		F20510022F84A14F00FE1FDA /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20510012F84A14F00FE1FDA /* SplashViewController.swift */; };
 		F20610022F84A14F00FE1FDA /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20610012F84A14F00FE1FDA /* Address.swift */; };
@@ -57,6 +58,7 @@
 		F20110012F84A14F00FE1FDA /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/LoginViewController.swift"; sourceTree = "<group>"; };
 		F20210012F84A14F00FE1FDA /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/MainTabBarController.swift"; sourceTree = "<group>"; };
 		F20310012F84A14F00FE1FDA /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/RegisterViewController.swift"; sourceTree = "<group>"; };
+		F22510012F84A14F00FE1FDA /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Theme.swift"; sourceTree = "<group>"; };
 		F20410012F84A14F00FE1FDA /* RootSwitcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/RootSwitcher.swift"; sourceTree = "<group>"; };
 		F20510012F84A14F00FE1FDA /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/SplashViewController.swift"; sourceTree = "<group>"; };
 		F20610012F84A14F00FE1FDA /* Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Model/Address.swift"; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 				F20110012F84A14F00FE1FDA /* LoginViewController.swift */,
 				F20210012F84A14F00FE1FDA /* MainTabBarController.swift */,
 				F20310012F84A14F00FE1FDA /* RegisterViewController.swift */,
+				F22510012F84A14F00FE1FDA /* Theme.swift */,
 				F20410012F84A14F00FE1FDA /* RootSwitcher.swift */,
 				F20510012F84A14F00FE1FDA /* SplashViewController.swift */,
 				F20610012F84A14F00FE1FDA /* Address.swift */,
@@ -246,6 +249,7 @@
 				F20110022F84A14F00FE1FDA /* LoginViewController.swift in Sources */,
 				F20210022F84A14F00FE1FDA /* MainTabBarController.swift in Sources */,
 				F20310022F84A14F00FE1FDA /* RegisterViewController.swift in Sources */,
+				F22510022F84A14F00FE1FDA /* Theme.swift in Sources */,
 				F20410022F84A14F00FE1FDA /* RootSwitcher.swift in Sources */,
 				F20510022F84A14F00FE1FDA /* SplashViewController.swift in Sources */,
 				F20610022F84A14F00FE1FDA /* Address.swift in Sources */,

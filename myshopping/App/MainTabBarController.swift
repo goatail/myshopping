@@ -14,6 +14,12 @@ final class MainTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         delegate = self
+
+        // 底部导航激活色统一：#92bfa6
+        tabBar.tintColor = Theme.primary
+        if #available(iOS 10.0, *) {
+            tabBar.unselectedItemTintColor = UIColor(white: 0.35, alpha: 1)
+        }
         let homeNav = UINavigationController(rootViewController: HomeViewController())
         homeNav.tabBarItem = makeTabItem(title: "首页", systemName: "house", tag: 0)
 

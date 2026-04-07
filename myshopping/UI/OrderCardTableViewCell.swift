@@ -45,7 +45,7 @@ final class OrderCardTableViewCell: UITableViewCell {
         timeLabel.textColor = .gray
 
         statusLabel.font = UIFont.systemFont(ofSize: 13)
-        statusLabel.textColor = UIColor(red: 1, green: 0.42, blue: 0.2, alpha: 1)
+        statusLabel.textColor = Theme.primary
         statusLabel.textAlignment = .right
 
         totalLabel.font = UIFont.boldSystemFont(ofSize: 16)

@@ -73,7 +73,7 @@ private final class ProductDetailOverlay: NSObject {
 
         let addBtn = UIButton(type: .system)
         addBtn.setTitle("加入购物车", for: .normal)
-        addBtn.backgroundColor = UIColor(red: 1, green: 0.42, blue: 0.2, alpha: 1)
+        addBtn.backgroundColor = Theme.primary
         addBtn.setTitleColor(.white, for: .normal)
         addBtn.layer.cornerRadius = 8
 

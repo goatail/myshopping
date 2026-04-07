@@ -16,6 +16,13 @@ final class RegisterViewController: UIViewController {
     private let codeField = UITextField()
     private let sendCodeButton = UIButton(type: .system)
     private let registerButton = UIButton(type: .system)
+    private let titleLabel = UILabel()
+
+    private let phoneBox = UIView()
+    private let usernameBox = UIView()
+    private let passwordBox = UIView()
+    private let confirmBox = UIView()
+    private let codeBox = UIView()
 
     private var countdownTimer: Timer?
     private var countdownLeft = 0
@@ -25,7 +32,7 @@ final class RegisterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "注册"
-        view.backgroundColor = .white
+        view.backgroundColor = Theme.pageBackground
         setupForm()
     }
 
@@ -34,47 +41,41 @@ final class RegisterViewController: UIViewController {
     }
 
     private func setupForm() {
-        func field(_ placeholder: String, secure: Bool = false) -> UITextField {
-            let t = UITextField()
-            t.placeholder = placeholder
-            t.borderStyle = .roundedRect
-            t.isSecureTextEntry = secure
-            t.autocapitalizationType = .none
-            t.keyboardType = placeholder.contains("手机") ? .phonePad : .default
-            return t
-        }
-        phoneField.placeholder = "手机号"
-        phoneField.borderStyle = .roundedRect
-        phoneField.keyboardType = .phonePad
-        usernameField.placeholder = "用户名"
-        usernameField.borderStyle = .roundedRect
-        usernameField.autocapitalizationType = .none
-        passwordField.placeholder = "密码"
-        passwordField.borderStyle = .roundedRect
-        passwordField.isSecureTextEntry = true
-        confirmField.placeholder = "确认密码"
-        confirmField.borderStyle = .roundedRect
-        confirmField.isSecureTextEntry = true
-        codeField.placeholder = "验证码（4位数字之和为20）"
-        codeField.borderStyle = .roundedRect
-        codeField.keyboardType = .numberPad
+        titleLabel.text = "注册"
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 36)
+        titleLabel.textColor = Theme.textPrimary
+        titleLabel.textAlignment = .center
+
+        configureOutlined(box: phoneBox, field: phoneField, placeholder: "手机号", secure: false, keyboard: .phonePad)
+        configureOutlined(box: usernameBox, field: usernameField, placeholder: "用户名", secure: false, keyboard: .default)
+        configureOutlined(box: passwordBox, field: passwordField, placeholder: "密码", secure: true, keyboard: .default)
+        configureOutlined(box: confirmBox, field: confirmField, placeholder: "确认密码", secure: true, keyboard: .default)
+        configureOutlined(box: codeBox, field: codeField, placeholder: "验证码（4位数字之和为20）", secure: false, keyboard: .numberPad)
 
         sendCodeButton.setTitle("发送验证码", for: .normal)
+        sendCodeButton.setTitleColor(Theme.primary, for: .normal)
         sendCodeButton.addTarget(self, action: #selector(sendCode), for: .touchUpInside)
 
         registerButton.setTitle("注册", for: .normal)
+        registerButton.backgroundColor = Theme.primary
+        registerButton.setTitleColor(.white, for: .normal)
+        registerButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        registerButton.layer.cornerRadius = 12
+        registerButton.heightAnchor.constraint(equalToConstant: 56).isActive = true
         registerButton.addTarget(self, action: #selector(registerTap), for: .touchUpInside)
 
-        let codeRow = UIStackView(arrangedSubviews: [codeField, sendCodeButton])
+        let codeRow = UIStackView(arrangedSubviews: [codeBox, sendCodeButton])
         codeRow.axis = .horizontal
         codeRow.spacing = 8
-        codeRow.distribution = .fillProportionally
+        codeRow.alignment = .center
+        codeRow.distribution = .fill
+        sendCodeButton.setContentHuggingPriority(.required, for: .horizontal)
 
         let stack = UIStackView(arrangedSubviews: [
-            phoneField, usernameField, passwordField, confirmField, codeRow, registerButton
+            titleLabel, phoneBox, usernameBox, passwordBox, confirmBox, codeRow, registerButton
         ])
         stack.axis = .vertical
-        stack.spacing = 12
+        stack.spacing = 20
         stack.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(stack)
 
@@ -82,8 +83,44 @@ final class RegisterViewController: UIViewController {
         NSLayoutConstraint.activate([
             stack.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: 20),
             stack.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -20),
-            stack.topAnchor.constraint(equalTo: guide.topAnchor, constant: 24)
+            stack.centerYAnchor.constraint(equalTo: guide.centerYAnchor)
         ])
+    }
+
+    private func configureOutlined(box: UIView, field: UITextField, placeholder: String, secure: Bool, keyboard: UIKeyboardType) {
+        box.layer.cornerRadius = 12
+        box.layer.borderWidth = 1 / UIScreen.main.scale
+        box.layer.borderColor = Theme.border.cgColor
+        box.translatesAutoresizingMaskIntoConstraints = false
+        box.heightAnchor.constraint(equalToConstant: 56).isActive = true
+
+        field.placeholder = placeholder
+        field.isSecureTextEntry = secure
+        field.keyboardType = keyboard
+        field.borderStyle = .none
+        field.font = UIFont.systemFont(ofSize: 16)
+        field.clearButtonMode = .whileEditing
+        field.autocapitalizationType = .none
+        field.translatesAutoresizingMaskIntoConstraints = false
+        field.addTarget(self, action: #selector(onFieldBegin(_:)), for: .editingDidBegin)
+        field.addTarget(self, action: #selector(onFieldEnd(_:)), for: .editingDidEnd)
+
+        box.addSubview(field)
+        NSLayoutConstraint.activate([
+            field.leadingAnchor.constraint(equalTo: box.leadingAnchor, constant: 16),
+            field.trailingAnchor.constraint(equalTo: box.trailingAnchor, constant: -16),
+            field.centerYAnchor.constraint(equalTo: box.centerYAnchor)
+        ])
+    }
+
+    @objc private func onFieldBegin(_ t: UITextField) {
+        (t.superview)?.layer.borderColor = Theme.primary.cgColor
+        (t.superview)?.layer.borderWidth = 2 / UIScreen.main.scale
+    }
+
+    @objc private func onFieldEnd(_ t: UITextField) {
+        (t.superview)?.layer.borderColor = Theme.border.cgColor
+        (t.superview)?.layer.borderWidth = 1 / UIScreen.main.scale
     }
 
     @objc private func sendCode() {

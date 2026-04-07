@@ -66,6 +66,14 @@ final class HomeViewController: UIViewController, UIPageViewControllerDataSource
 
         segmented = UISegmentedControl(items: categories)
         segmented.selectedSegmentIndex = 0
+        // Tabs 激活色统一：#92bfa6
+        if #available(iOS 13.0, *) {
+            segmented.selectedSegmentTintColor = Theme.primary
+            segmented.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
+            segmented.setTitleTextAttributes([.foregroundColor: UIColor(white: 0.25, alpha: 1)], for: .normal)
+        } else {
+            segmented.tintColor = Theme.primary
+        }
         segmented.addTarget(self, action: #selector(segmentChanged), for: .valueChanged)
         segmented.translatesAutoresizingMaskIntoConstraints = false
 

@@ -64,7 +64,7 @@ final class CheckoutViewController: UIViewController {
         itemsStack.spacing = 8
 
         submitButton.setTitle("提交订单", for: .normal)
-        submitButton.backgroundColor = UIColor(red: 1, green: 0.42, blue: 0.2, alpha: 1)
+        submitButton.backgroundColor = Theme.primary
         submitButton.setTitleColor(.white, for: .normal)
         submitButton.layer.cornerRadius = 8
         submitButton.addTarget(self, action: #selector(submit), for: .touchUpInside)

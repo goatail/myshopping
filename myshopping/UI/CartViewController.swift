@@ -8,9 +8,8 @@
 import UIKit
 
 final class CartViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-
-    /// 与 Android colors.xml 中主色一致
-    private static let accentOrange = UIColor(red: 1, green: 0.34, blue: 0.13, alpha: 1)
+    /// 统一主色：#92bfa6
+    private static let accent = Theme.primary
 
     private let tableView = UITableView(frame: .zero, style: .plain)
     private let totalLabel = UILabel()
@@ -26,11 +25,11 @@ final class CartViewController: UIViewController, UITableViewDataSource, UITable
         view.backgroundColor = UIColor(white: 0.96, alpha: 1)
 
         totalLabel.font = UIFont.boldSystemFont(ofSize: 18)
-        totalLabel.textColor = CartViewController.accentOrange
+        totalLabel.textColor = CartViewController.accent
         totalLabel.translatesAutoresizingMaskIntoConstraints = false
 
         checkoutButton.setTitle("结算", for: .normal)
-        checkoutButton.backgroundColor = CartViewController.accentOrange
+        checkoutButton.backgroundColor = CartViewController.accent
         checkoutButton.setTitleColor(.white, for: .normal)
         checkoutButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         checkoutButton.layer.cornerRadius = 8

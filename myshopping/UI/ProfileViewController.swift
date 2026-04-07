@@ -204,18 +204,34 @@ final class ProfileViewController: UIViewController {
         title.font = UIFont.boldSystemFont(ofSize: 12)
         title.textColor = .black
 
-        let row = UIStackView(arrangedSubviews: [
+        // 小屏避免 5 等分溢出：改为横向可滚动 + 固定最小宽高，点击更容易命中
+        let shortcuts = UIStackView(arrangedSubviews: [
             makeOrderShortcut(countLabel: countPay, text: "待付款", action: #selector(goPay)),
             makeOrderShortcut(countLabel: countShip, text: "待发货", action: #selector(goShip)),
             makeOrderShortcut(countLabel: countRecv, text: "待收货", action: #selector(goRecv)),
             makeOrderShortcut(countLabel: countReview, text: "待评价", action: #selector(goReview)),
             makeOrderShortcut(countLabel: countRefund, text: "退款/售后", action: #selector(goRefund))
         ])
-        row.axis = .horizontal
-        row.alignment = .fill
-        row.distribution = .fillEqually
+        shortcuts.axis = .horizontal
+        shortcuts.alignment = .fill
+        shortcuts.distribution = .fill
+        shortcuts.spacing = 4
+        shortcuts.translatesAutoresizingMaskIntoConstraints = false
 
-        let stack = UIStackView(arrangedSubviews: [title, row])
+        let scroll = UIScrollView()
+        scroll.translatesAutoresizingMaskIntoConstraints = false
+        scroll.showsHorizontalScrollIndicator = false
+        scroll.alwaysBounceHorizontal = true
+        scroll.addSubview(shortcuts)
+        NSLayoutConstraint.activate([
+            shortcuts.topAnchor.constraint(equalTo: scroll.contentLayoutGuide.topAnchor),
+            shortcuts.bottomAnchor.constraint(equalTo: scroll.contentLayoutGuide.bottomAnchor),
+            shortcuts.leadingAnchor.constraint(equalTo: scroll.contentLayoutGuide.leadingAnchor),
+            shortcuts.trailingAnchor.constraint(equalTo: scroll.contentLayoutGuide.trailingAnchor),
+            shortcuts.heightAnchor.constraint(equalTo: scroll.frameLayoutGuide.heightAnchor)
+        ])
+
+        let stack = UIStackView(arrangedSubviews: [title, scroll])
         stack.axis = .vertical
         stack.spacing = 12
         stack.translatesAutoresizingMaskIntoConstraints = false
@@ -232,6 +248,9 @@ final class ProfileViewController: UIViewController {
     private func makeOrderShortcut(countLabel: UILabel, text: String, action: Selector) -> UIControl {
         let control = UIControl()
         control.addTarget(self, action: action, for: .touchUpInside)
+        control.isExclusiveTouch = true
+        control.layer.cornerRadius = 8
+        control.backgroundColor = UIColor(white: 0.98, alpha: 1)
 
         countLabel.text = "0"
         countLabel.font = UIFont.boldSystemFont(ofSize: 18)
@@ -243,6 +262,7 @@ final class ProfileViewController: UIViewController {
         name.font = UIFont.systemFont(ofSize: 10)
         name.textColor = UIColor(white: 0.4, alpha: 1)
         name.textAlignment = .center
+        name.numberOfLines = 2
 
         let stack = UIStackView(arrangedSubviews: [countLabel, name])
         stack.axis = .vertical
@@ -251,9 +271,12 @@ final class ProfileViewController: UIViewController {
         stack.translatesAutoresizingMaskIntoConstraints = false
         control.addSubview(stack)
         NSLayoutConstraint.activate([
-            stack.centerXAnchor.constraint(equalTo: control.centerXAnchor),
+            // 点击区域与内容都填满，避免“点不到”
+            stack.leadingAnchor.constraint(equalTo: control.leadingAnchor, constant: 8),
+            stack.trailingAnchor.constraint(equalTo: control.trailingAnchor, constant: -8),
             stack.centerYAnchor.constraint(equalTo: control.centerYAnchor),
-            control.heightAnchor.constraint(greaterThanOrEqualToConstant: 56)
+            control.heightAnchor.constraint(greaterThanOrEqualToConstant: 72),
+            control.widthAnchor.constraint(greaterThanOrEqualToConstant: 72)
         ])
         return control
     }

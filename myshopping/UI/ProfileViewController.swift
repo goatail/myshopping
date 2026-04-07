@@ -224,7 +224,9 @@ final class ProfileViewController: UIViewController {
         scroll.alwaysBounceHorizontal = true
         // 避免 ScrollView 抢占点击导致“点不到/不触发”
         scroll.delaysContentTouches = false
-        scroll.canCancelContentTouches = true
+        // 关键：不要在识别到滚动时取消按钮点击（否则轻微手抖就只剩“点边缘”才触发）
+        scroll.canCancelContentTouches = false
+        scroll.panGestureRecognizer.cancelsTouchesInView = false
         scroll.addSubview(shortcuts)
         NSLayoutConstraint.activate([
             shortcuts.topAnchor.constraint(equalTo: scroll.contentLayoutGuide.topAnchor),

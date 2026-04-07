@@ -10,9 +10,25 @@ import UIKit
 final class ProfileViewController: UIViewController {
 
     private let scrollView = UIScrollView()
+    private let contentStack = UIStackView()
+
+    private let headerView = UIView()
+    private let settingsButton = UIButton(type: .system)
+    private let avatarView = UIImageView()
     private let usernameLabel = UILabel()
     private let phoneLabel = UILabel()
-    private let countsStack = UIStackView()
+
+    private var cardOrders = UIView()
+    private let countPay = UILabel()
+    private let countShip = UILabel()
+    private let countRecv = UILabel()
+    private let countReview = UILabel()
+    private let countRefund = UILabel()
+
+    private var cardMenu = UIView()
+    private let logoutButton = UIButton(type: .system)
+
+    private var headerGradient: CAGradientLayer?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,56 +36,27 @@ final class ProfileViewController: UIViewController {
         title = ""
         view.backgroundColor = UIColor(white: 0.96, alpha: 1)
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "设置", style: .plain, target: self, action: #selector(openSettings))
+        // Android 顶部是设置图标按钮；iOS 用同样入口（同时保留「设置」文案操作表）
+        navigationItem.rightBarButtonItem = nil
 
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(scrollView)
 
-        let content = UIStackView()
-        content.axis = .vertical
-        content.spacing = 16
-        content.translatesAutoresizingMaskIntoConstraints = false
+        contentStack.axis = .vertical
+        contentStack.spacing = 12
+        contentStack.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.addSubview(contentStack)
 
-        let header = UIView()
-        header.backgroundColor = UIColor(red: 0.35, green: 0.55, blue: 0.95, alpha: 1)
-        header.layer.cornerRadius = 12
-        header.translatesAutoresizingMaskIntoConstraints = false
+        buildHeader()
+        buildOrdersCard()
+        buildMenuCard()
+        buildLogoutButton()
 
-        usernameLabel.font = UIFont.boldSystemFont(ofSize: 20)
-        usernameLabel.textColor = .white
-        phoneLabel.font = UIFont.systemFont(ofSize: 14)
-        phoneLabel.textColor = UIColor(white: 1, alpha: 0.85)
+        contentStack.addArrangedSubview(headerView)
+        contentStack.addArrangedSubview(cardOrders)
+        contentStack.addArrangedSubview(cardMenu)
+        contentStack.addArrangedSubview(logoutButton)
 
-        let headerStack = UIStackView(arrangedSubviews: [usernameLabel, phoneLabel])
-        headerStack.axis = .vertical
-        headerStack.spacing = 6
-        headerStack.translatesAutoresizingMaskIntoConstraints = false
-        header.addSubview(headerStack)
-
-        NSLayoutConstraint.activate([
-            header.heightAnchor.constraint(greaterThanOrEqualToConstant: 100),
-            headerStack.leadingAnchor.constraint(equalTo: header.leadingAnchor, constant: 16),
-            headerStack.trailingAnchor.constraint(equalTo: header.trailingAnchor, constant: -16),
-            headerStack.centerYAnchor.constraint(equalTo: header.centerYAnchor)
-        ])
-
-        countsStack.axis = .vertical
-        countsStack.spacing = 8
-        countsStack.translatesAutoresizingMaskIntoConstraints = false
-        buildOrderShortcuts()
-
-        let logout = UIButton(type: .system)
-        logout.setTitle("退出登录", for: .normal)
-        logout.backgroundColor = .white
-        logout.layer.cornerRadius = 8
-        logout.addTarget(self, action: #selector(logoutTap), for: .touchUpInside)
-        logout.translatesAutoresizingMaskIntoConstraints = false
-
-        content.addArrangedSubview(header)
-        content.addArrangedSubview(countsStack)
-        content.addArrangedSubview(logout)
-
-        scrollView.addSubview(content)
         let guide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: guide.topAnchor),
@@ -77,19 +64,24 @@ final class ProfileViewController: UIViewController {
             scrollView.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: guide.bottomAnchor),
 
-            content.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: 12),
-            content.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 12),
-            content.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor, constant: -12),
-            content.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -12),
-            content.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor, constant: -24)
+            contentStack.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
+            contentStack.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor),
+            contentStack.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor),
+            contentStack.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -16),
+            contentStack.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor)
         ])
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        headerGradient?.frame = headerView.bounds
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.tabBarItem?.title = "我的"
         refreshUser()
-        buildOrderShortcuts()
+        refreshCounts()
     }
 
     private func refreshUser() {
@@ -99,53 +91,242 @@ final class ProfileViewController: UIViewController {
         phoneLabel.text = p.isEmpty ? "请登录" : p
     }
 
-    private func buildOrderShortcuts() {
-        countsStack.arrangedSubviews.forEach { $0.removeFromSuperview() }
+    private func refreshCounts() {
+        countPay.text = "\(OrderManager.getPendingPaymentCount())"
+        countShip.text = "\(OrderManager.getPendingShipmentCount())"
+        countRecv.text = "\(OrderManager.getPendingReceiptCount())"
+        countReview.text = "\(OrderManager.getPendingReviewCount())"
+        countRefund.text = "\(OrderManager.getRefundCount())"
+    }
 
-        func row(title: String, count: Int, action: Selector) -> UIButton {
-            let b = UIButton(type: .system)
-            b.contentHorizontalAlignment = .left
-            b.setTitle("\(title)  (\(count))", for: .normal)
-            b.backgroundColor = .white
-            b.layer.cornerRadius = 8
-            b.contentEdgeInsets = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
-            b.addTarget(self, action: action, for: .touchUpInside)
-            return b
+    private func buildHeader() {
+        headerView.translatesAutoresizingMaskIntoConstraints = false
+        headerView.heightAnchor.constraint(greaterThanOrEqualToConstant: 170).isActive = true
+
+        // Android: profile_header_background (渐变 #FF6B6B -> #FF5722 -> #E91E63)
+        let g = CAGradientLayer()
+        g.colors = [UIColor(hex: 0xFF6B6B).cgColor, UIColor(hex: 0xFF5722).cgColor, UIColor(hex: 0xE91E63).cgColor]
+        g.startPoint = CGPoint(x: 1, y: 0)
+        g.endPoint = CGPoint(x: 0, y: 1)
+        headerView.layer.insertSublayer(g, at: 0)
+        headerGradient = g
+
+        let topRow = UIView()
+        topRow.translatesAutoresizingMaskIntoConstraints = false
+
+        settingsButton.translatesAutoresizingMaskIntoConstraints = false
+        settingsButton.tintColor = .white
+        if #available(iOS 13.0, *) {
+            settingsButton.setImage(UIImage(systemName: "gearshape"), for: .normal)
+        } else {
+            settingsButton.setTitle("设置", for: .normal)
+            settingsButton.setTitleColor(.white, for: .normal)
+        }
+        settingsButton.backgroundColor = UIColor(white: 1, alpha: 0.18)
+        settingsButton.layer.cornerRadius = 20
+        settingsButton.addTarget(self, action: #selector(openSettings), for: .touchUpInside)
+
+        topRow.addSubview(settingsButton)
+        NSLayoutConstraint.activate([
+            settingsButton.widthAnchor.constraint(equalToConstant: 40),
+            settingsButton.heightAnchor.constraint(equalToConstant: 40),
+            settingsButton.trailingAnchor.constraint(equalTo: topRow.trailingAnchor, constant: -16),
+            settingsButton.topAnchor.constraint(equalTo: topRow.topAnchor)
+        ])
+
+        avatarView.translatesAutoresizingMaskIntoConstraints = false
+        avatarView.contentMode = .center
+        avatarView.backgroundColor = UIColor(white: 0.88, alpha: 1)
+        avatarView.layer.cornerRadius = 32
+        avatarView.clipsToBounds = true
+        if #available(iOS 13.0, *) {
+            avatarView.image = UIImage(systemName: "person.fill")
+            avatarView.tintColor = UIColor(white: 0.55, alpha: 1)
         }
 
-        countsStack.addArrangedSubview(row(title: "待付款", count: OrderManager.getPendingPaymentCount(), action: #selector(goPay)))
-        countsStack.addArrangedSubview(row(title: "待发货", count: OrderManager.getPendingShipmentCount(), action: #selector(goShip)))
-        countsStack.addArrangedSubview(row(title: "待收货", count: OrderManager.getPendingReceiptCount(), action: #selector(goRecv)))
-        countsStack.addArrangedSubview(row(title: "待评价", count: OrderManager.getPendingReviewCount(), action: #selector(goReview)))
-        countsStack.addArrangedSubview(row(title: "退款/售后", count: OrderManager.getRefundCount(), action: #selector(goRefund)))
+        usernameLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        usernameLabel.textColor = .white
+        phoneLabel.font = UIFont.systemFont(ofSize: 14)
+        phoneLabel.textColor = UIColor(white: 1, alpha: 0.88)
 
-        let myOrders = UIButton(type: .system)
-        myOrders.contentHorizontalAlignment = .left
-        myOrders.setTitle("我的订单", for: .normal)
-        myOrders.backgroundColor = .white
-        myOrders.layer.cornerRadius = 8
-        myOrders.contentEdgeInsets = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
-        myOrders.addTarget(self, action: #selector(goMyOrders), for: .touchUpInside)
+        let nameStack = UIStackView(arrangedSubviews: [usernameLabel, phoneLabel])
+        nameStack.axis = .vertical
+        nameStack.spacing = 4
+        nameStack.translatesAutoresizingMaskIntoConstraints = false
 
-        let addr = UIButton(type: .system)
-        addr.contentHorizontalAlignment = .left
-        addr.setTitle("收货地址", for: .normal)
-        addr.backgroundColor = .white
-        addr.layer.cornerRadius = 8
-        addr.contentEdgeInsets = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
-        addr.addTarget(self, action: #selector(goAddress), for: .touchUpInside)
+        let chevron = UIImageView()
+        chevron.translatesAutoresizingMaskIntoConstraints = false
+        if #available(iOS 13.0, *) {
+            chevron.image = UIImage(systemName: "chevron.right")
+            chevron.tintColor = UIColor(white: 1, alpha: 0.9)
+        }
 
-        let fav = UIButton(type: .system)
-        fav.contentHorizontalAlignment = .left
-        fav.setTitle("我的收藏", for: .normal)
-        fav.backgroundColor = .white
-        fav.layer.cornerRadius = 8
-        fav.contentEdgeInsets = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
-        fav.addTarget(self, action: #selector(goFavoriteTab), for: .touchUpInside)
+        let userRow = UIStackView(arrangedSubviews: [avatarView, nameStack, UIView(), chevron])
+        userRow.axis = .horizontal
+        userRow.alignment = .center
+        userRow.spacing = 12
+        userRow.translatesAutoresizingMaskIntoConstraints = false
 
-        countsStack.addArrangedSubview(myOrders)
-        countsStack.addArrangedSubview(addr)
-        countsStack.addArrangedSubview(fav)
+        headerView.addSubview(topRow)
+        headerView.addSubview(userRow)
+
+        NSLayoutConstraint.activate([
+            topRow.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 48),
+            topRow.leadingAnchor.constraint(equalTo: headerView.leadingAnchor),
+            topRow.trailingAnchor.constraint(equalTo: headerView.trailingAnchor),
+
+            avatarView.widthAnchor.constraint(equalToConstant: 64),
+            avatarView.heightAnchor.constraint(equalToConstant: 64),
+
+            userRow.topAnchor.constraint(equalTo: topRow.bottomAnchor, constant: 16),
+            userRow.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16),
+            userRow.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -16),
+            userRow.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -24)
+        ])
+    }
+
+    private func makeCard() -> UIView {
+        let v = UIView()
+        v.backgroundColor = .white
+        v.layer.cornerRadius = 6
+        v.layer.borderWidth = 1 / UIScreen.main.scale
+        v.layer.borderColor = UIColor(white: 0.9, alpha: 1).cgColor
+        v.translatesAutoresizingMaskIntoConstraints = false
+        return v
+    }
+
+    private func buildOrdersCard() {
+        cardOrders = makeCard()
+        cardOrders.layoutMargins = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
+
+        let title = UILabel()
+        title.text = "我的订单"
+        title.font = UIFont.boldSystemFont(ofSize: 12)
+        title.textColor = .black
+
+        let row = UIStackView(arrangedSubviews: [
+            makeOrderShortcut(countLabel: countPay, text: "待付款", action: #selector(goPay)),
+            makeOrderShortcut(countLabel: countShip, text: "待发货", action: #selector(goShip)),
+            makeOrderShortcut(countLabel: countRecv, text: "待收货", action: #selector(goRecv)),
+            makeOrderShortcut(countLabel: countReview, text: "待评价", action: #selector(goReview)),
+            makeOrderShortcut(countLabel: countRefund, text: "退款/售后", action: #selector(goRefund))
+        ])
+        row.axis = .horizontal
+        row.alignment = .fill
+        row.distribution = .fillEqually
+
+        let stack = UIStackView(arrangedSubviews: [title, row])
+        stack.axis = .vertical
+        stack.spacing = 12
+        stack.translatesAutoresizingMaskIntoConstraints = false
+
+        cardOrders.addSubview(stack)
+        NSLayoutConstraint.activate([
+            stack.topAnchor.constraint(equalTo: cardOrders.topAnchor, constant: 12),
+            stack.leadingAnchor.constraint(equalTo: cardOrders.leadingAnchor, constant: 12),
+            stack.trailingAnchor.constraint(equalTo: cardOrders.trailingAnchor, constant: -12),
+            stack.bottomAnchor.constraint(equalTo: cardOrders.bottomAnchor, constant: -12)
+        ])
+    }
+
+    private func makeOrderShortcut(countLabel: UILabel, text: String, action: Selector) -> UIControl {
+        let control = UIControl()
+        control.addTarget(self, action: action, for: .touchUpInside)
+
+        countLabel.text = "0"
+        countLabel.font = UIFont.boldSystemFont(ofSize: 18)
+        countLabel.textColor = UIColor(hex: 0xFF5722)
+        countLabel.textAlignment = .center
+
+        let name = UILabel()
+        name.text = text
+        name.font = UIFont.systemFont(ofSize: 10)
+        name.textColor = UIColor(white: 0.4, alpha: 1)
+        name.textAlignment = .center
+
+        let stack = UIStackView(arrangedSubviews: [countLabel, name])
+        stack.axis = .vertical
+        stack.spacing = 4
+        stack.alignment = .center
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        control.addSubview(stack)
+        NSLayoutConstraint.activate([
+            stack.centerXAnchor.constraint(equalTo: control.centerXAnchor),
+            stack.centerYAnchor.constraint(equalTo: control.centerYAnchor),
+            control.heightAnchor.constraint(greaterThanOrEqualToConstant: 56)
+        ])
+        return control
+    }
+
+    private func buildMenuCard() {
+        cardMenu = makeCard()
+
+        let v = UIStackView(arrangedSubviews: [
+            makeMenuRow(title: "我的订单", action: #selector(goMyOrders)),
+            makeDivider(),
+            makeMenuRow(title: "收货地址", action: #selector(goAddress)),
+            makeDivider(),
+            makeMenuRow(title: "我的收藏", action: #selector(goFavoriteTab))
+        ])
+        v.axis = .vertical
+        v.spacing = 0
+        v.translatesAutoresizingMaskIntoConstraints = false
+        cardMenu.addSubview(v)
+        NSLayoutConstraint.activate([
+            v.topAnchor.constraint(equalTo: cardMenu.topAnchor, constant: 8),
+            v.leadingAnchor.constraint(equalTo: cardMenu.leadingAnchor, constant: 8),
+            v.trailingAnchor.constraint(equalTo: cardMenu.trailingAnchor, constant: -8),
+            v.bottomAnchor.constraint(equalTo: cardMenu.bottomAnchor, constant: -8)
+        ])
+    }
+
+    private func makeMenuRow(title: String, action: Selector) -> UIControl {
+        let c = UIControl()
+        c.addTarget(self, action: action, for: .touchUpInside)
+        c.translatesAutoresizingMaskIntoConstraints = false
+        c.heightAnchor.constraint(equalToConstant: 48).isActive = true
+
+        let label = UILabel()
+        label.text = title
+        label.font = UIFont.systemFont(ofSize: 12)
+        label.textColor = .black
+        label.translatesAutoresizingMaskIntoConstraints = false
+
+        let chevron = UIImageView()
+        chevron.translatesAutoresizingMaskIntoConstraints = false
+        if #available(iOS 13.0, *) {
+            chevron.image = UIImage(systemName: "chevron.right")
+            chevron.tintColor = UIColor(white: 0.8, alpha: 1)
+        }
+
+        c.addSubview(label)
+        c.addSubview(chevron)
+        NSLayoutConstraint.activate([
+            label.leadingAnchor.constraint(equalTo: c.leadingAnchor, constant: 8),
+            label.centerYAnchor.constraint(equalTo: c.centerYAnchor),
+            chevron.trailingAnchor.constraint(equalTo: c.trailingAnchor, constant: -8),
+            chevron.centerYAnchor.constraint(equalTo: c.centerYAnchor)
+        ])
+        return c
+    }
+
+    private func makeDivider() -> UIView {
+        let v = UIView()
+        v.backgroundColor = UIColor(white: 0.88, alpha: 1)
+        v.heightAnchor.constraint(equalToConstant: 1 / UIScreen.main.scale).isActive = true
+        return v
+    }
+
+    private func buildLogoutButton() {
+        logoutButton.setTitle("退出登录", for: .normal)
+        logoutButton.backgroundColor = UIColor(hex: 0xFF5722)
+        logoutButton.setTitleColor(.white, for: .normal)
+        logoutButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+        logoutButton.layer.cornerRadius = 8
+        logoutButton.addTarget(self, action: #selector(logoutTap), for: .touchUpInside)
+        logoutButton.translatesAutoresizingMaskIntoConstraints = false
+        logoutButton.heightAnchor.constraint(equalToConstant: 56).isActive = true
+        logoutButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
     }
 
     @objc private func openSettings() {
@@ -156,7 +337,8 @@ final class ProfileViewController: UIViewController {
         ac.addAction(UIAlertAction(title: "应用设置（占位）", style: .default, handler: { _ in }))
         ac.addAction(UIAlertAction(title: "取消", style: .cancel))
         if let pop = ac.popoverPresentationController {
-            pop.barButtonItem = navigationItem.rightBarButtonItem
+            pop.sourceView = settingsButton
+            pop.sourceRect = settingsButton.bounds
         }
         present(ac, animated: true)
     }

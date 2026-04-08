@@ -62,7 +62,16 @@ final class MainTabBarController: UITabBarController {
             let img = UIImage(systemName: systemName)
             return UITabBarItem(title: title, image: img, tag: tag)
         } else {
-            return UITabBarItem(title: title, image: nil, tag: tag)
+            let fallbackName: String
+            switch tag {
+            case 0: fallbackName = "tab_home"
+            case 1: fallbackName = "tab_favorite"
+            case 2: fallbackName = "tab_cart"
+            case 3: fallbackName = "tab_profile"
+            default: fallbackName = "tab_home"
+            }
+            let img = UIImage(named: fallbackName)?.withRenderingMode(.alwaysTemplate)
+            return UITabBarItem(title: title, image: img, tag: tag)
         }
     }
 }

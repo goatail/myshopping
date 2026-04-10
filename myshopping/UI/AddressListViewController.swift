@@ -82,12 +82,7 @@ final class AddressListViewController: UIViewController, UITableViewDataSource, 
         cell.textLabel?.numberOfLines = 0
         cell.textLabel?.text = a.displayText() + (a.isDefault ? "\n【默认】" : "")
         if !selectMode && !a.isDefault {
-            let deleteButton = UIButton(type: .system)
-            deleteButton.setTitle("删除", for: .normal)
-            deleteButton.setTitleColor(.systemRed, for: .normal)
-            deleteButton.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .medium)
-            deleteButton.tag = indexPath.row
-            deleteButton.addTarget(self, action: #selector(deleteButtonTapped(_:)), for: .touchUpInside)
+            let deleteButton = makeDeleteButton(index: indexPath.row)
             cell.accessoryType = .none
             cell.accessoryView = deleteButton
         } else {
@@ -125,6 +120,22 @@ final class AddressListViewController: UIViewController, UITableViewDataSource, 
         let idx = sender.tag
         guard idx >= 0, idx < addresses.count else { return }
         confirmDelete(address: addresses[idx], tableView: tableView, completion: nil)
+    }
+
+    private func makeDeleteButton(index: Int) -> UIButton {
+        let b = UIButton(type: .system)
+        // accessoryView 在部分系统下可能不按 intrinsic size 布局，给固定 frame 保证可见
+        b.frame = CGRect(x: 0, y: 0, width: 52, height: 30)
+        b.setTitle("删除", for: .normal)
+        b.setTitleColor(.systemRed, for: .normal)
+        b.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+        b.layer.cornerRadius = 6
+        b.layer.borderWidth = 1
+        b.layer.borderColor = UIColor.systemRed.cgColor
+        b.contentEdgeInsets = UIEdgeInsets(top: 2, left: 8, bottom: 2, right: 8)
+        b.tag = index
+        b.addTarget(self, action: #selector(deleteButtonTapped(_:)), for: .touchUpInside)
+        return b
     }
 
     private func confirmDelete(address: Address, tableView: UITableView, completion: ((Bool) -> Void)?) {

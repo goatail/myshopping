@@ -76,8 +76,19 @@ final class MainTabBarController: UITabBarController {
             case 3: fallbackName = "tab_profile"
             default: fallbackName = "tab_home"
             }
-            let img = UIImage(named: fallbackName)?.withRenderingMode(.alwaysTemplate)
+            let img = normalizedTabImage(named: fallbackName)?.withRenderingMode(.alwaysTemplate)
             return UITabBarItem(title: title, image: img, tag: tag)
+        }
+    }
+
+    /// iOS 11/12 兼容：将资源图标统一缩放到 TabBar 常用尺寸，避免源图过大导致显示异常
+    private func normalizedTabImage(named name: String) -> UIImage? {
+        guard let source = UIImage(named: name) else { return nil }
+        let targetSide: CGFloat = 25
+        let targetSize = CGSize(width: targetSide, height: targetSide)
+        let renderer = UIGraphicsImageRenderer(size: targetSize)
+        return renderer.image { _ in
+            source.draw(in: CGRect(origin: .zero, size: targetSize))
         }
     }
 }

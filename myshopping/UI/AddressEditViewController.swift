@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class AddressEditViewController: UIViewController {
+final class AddressEditViewController: UIViewController, UITextFieldDelegate {
 
     private var address: Address?
     private let nameField = UITextField()
@@ -54,6 +54,14 @@ final class AddressEditViewController: UIViewController {
         detailField.placeholder = "详细地址"
         detailField.borderStyle = .roundedRect
 
+        nameField.returnKeyType = .next
+        phoneField.returnKeyType = .next
+        provinceField.returnKeyType = .next
+        cityField.returnKeyType = .next
+        districtField.returnKeyType = .next
+        detailField.returnKeyType = .done
+        [nameField, phoneField, provinceField, cityField, districtField, detailField].forEach { $0.delegate = self }
+
         if let a = address {
             nameField.text = a.name
             phoneField.text = a.phone
@@ -92,6 +100,17 @@ final class AddressEditViewController: UIViewController {
         scroll.addSubview(stack)
         view.addSubview(scroll)
 
+        let doneBar = UIToolbar()
+        doneBar.sizeToFit()
+        let flex = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let done = UIBarButtonItem(title: "完成", style: .done, target: self, action: #selector(dismissKeyboard))
+        doneBar.items = [flex, done]
+        phoneField.inputAccessoryView = doneBar
+
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+
         let guide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
             scroll.topAnchor.constraint(equalTo: guide.topAnchor),
@@ -105,6 +124,28 @@ final class AddressEditViewController: UIViewController {
             stack.bottomAnchor.constraint(equalTo: scroll.contentLayoutGuide.bottomAnchor, constant: -16),
             stack.widthAnchor.constraint(equalTo: scroll.frameLayoutGuide.widthAnchor, constant: -32)
         ])
+    }
+
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switch textField {
+        case nameField:
+            phoneField.becomeFirstResponder()
+        case phoneField:
+            provinceField.becomeFirstResponder()
+        case provinceField:
+            cityField.becomeFirstResponder()
+        case cityField:
+            districtField.becomeFirstResponder()
+        case districtField:
+            detailField.becomeFirstResponder()
+        default:
+            dismissKeyboard()
+        }
+        return true
     }
 
     @objc private func save() {

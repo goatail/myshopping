@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class RegisterViewController: UIViewController {
+final class RegisterViewController: UIViewController, UITextFieldDelegate {
 
     private let phoneField = UITextField()
     private let usernameField = UITextField()
@@ -34,6 +34,7 @@ final class RegisterViewController: UIViewController {
         title = "注册"
         view.backgroundColor = Theme.pageBackground
         setupForm()
+        setupKeyboardDismiss()
     }
 
     deinit {
@@ -101,6 +102,7 @@ final class RegisterViewController: UIViewController {
         field.font = UIFont.systemFont(ofSize: 16)
         field.clearButtonMode = .whileEditing
         field.autocapitalizationType = .none
+        field.delegate = self
         field.translatesAutoresizingMaskIntoConstraints = false
         field.addTarget(self, action: #selector(onFieldBegin(_:)), for: .editingDidBegin)
         field.addTarget(self, action: #selector(onFieldEnd(_:)), for: .editingDidEnd)
@@ -111,6 +113,46 @@ final class RegisterViewController: UIViewController {
             field.trailingAnchor.constraint(equalTo: box.trailingAnchor, constant: -16),
             field.centerYAnchor.constraint(equalTo: box.centerYAnchor)
         ])
+    }
+
+    private func setupKeyboardDismiss() {
+        phoneField.returnKeyType = .next
+        usernameField.returnKeyType = .next
+        passwordField.returnKeyType = .next
+        confirmField.returnKeyType = .next
+        codeField.returnKeyType = .done
+
+        let doneBar = UIToolbar()
+        doneBar.sizeToFit()
+        let flex = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let done = UIBarButtonItem(title: "完成", style: .done, target: self, action: #selector(dismissKeyboard))
+        doneBar.items = [flex, done]
+        phoneField.inputAccessoryView = doneBar
+        codeField.inputAccessoryView = doneBar
+
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switch textField {
+        case phoneField:
+            usernameField.becomeFirstResponder()
+        case usernameField:
+            passwordField.becomeFirstResponder()
+        case passwordField:
+            confirmField.becomeFirstResponder()
+        case confirmField:
+            codeField.becomeFirstResponder()
+        default:
+            dismissKeyboard()
+        }
+        return true
     }
 
     @objc private func onFieldBegin(_ t: UITextField) {

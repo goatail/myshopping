@@ -63,6 +63,8 @@ final class CartViewController: UIViewController, UITableViewDataSource, UITable
         tableView.estimatedRowHeight = 120
         tableView.tableFooterView = UIView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        // 已用 safeArea 约束 table 边缘时，勿再让系统自动叠加 contentInset，否则顶部会出现双倍留白
+        tableView.contentInsetAdjustmentBehavior = .never
 
         let emptyTitle = UILabel()
         emptyTitle.text = "购物车是空的"

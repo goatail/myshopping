@@ -29,6 +29,7 @@ final class CheckoutViewController: UIViewController {
         view.backgroundColor = UIColor(white: 0.96, alpha: 1)
 
         scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.contentInsetAdjustmentBehavior = .never
         contentStack.axis = .vertical
         contentStack.spacing = 12
         contentStack.translatesAutoresizingMaskIntoConstraints = false

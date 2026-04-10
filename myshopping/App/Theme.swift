@@ -9,7 +9,7 @@ import UIKit
 
 enum Theme {
     /// 统一主色：登录按钮、注册按钮、Tabs 激活、底部导航激活
-    static let primary = UIColor(hex: 0x92BFA6)
+    static let primary = UIColor(hex: 0x369650)
 
     static let textPrimary = UIColor(white: 0.12, alpha: 1)
     static let textSecondary = UIColor(white: 0.6, alpha: 1)

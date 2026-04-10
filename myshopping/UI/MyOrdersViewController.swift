@@ -70,6 +70,7 @@ final class MyOrdersViewController: UIViewController, UITableViewDataSource {
         tableView.separatorStyle = .none
         tableView.backgroundColor = view.backgroundColor
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.contentInsetAdjustmentBehavior = .never
         view.addSubview(tableView)
         view.addSubview(emptyStack)
 

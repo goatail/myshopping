@@ -38,6 +38,7 @@ final class FavoriteViewController: UIViewController, UICollectionViewDataSource
         collectionView.delegate = self
         collectionView.register(ProductGridCell.self, forCellWithReuseIdentifier: ProductGridCell.reuseId)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.contentInsetAdjustmentBehavior = .never
 
         view.addSubview(manageButton)
         view.addSubview(collectionView)

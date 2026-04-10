@@ -43,6 +43,7 @@ final class OrdersListViewController: UIViewController, UITableViewDataSource {
         tableView.estimatedRowHeight = 220
         tableView.separatorStyle = .none
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.contentInsetAdjustmentBehavior = .never
         view.addSubview(tableView)
         view.addSubview(emptyStack)
         let guide = view.safeAreaLayoutGuide

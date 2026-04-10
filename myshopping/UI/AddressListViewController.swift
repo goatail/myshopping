@@ -47,6 +47,7 @@ final class AddressListViewController: UIViewController, UITableViewDataSource, 
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "a")
         tableView.backgroundColor = view.backgroundColor
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.contentInsetAdjustmentBehavior = .never
         view.addSubview(tableView)
         view.addSubview(emptyStack)
 

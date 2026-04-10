@@ -88,6 +88,7 @@ final class AddressEditViewController: UIViewController {
 
         let scroll = UIScrollView()
         scroll.translatesAutoresizingMaskIntoConstraints = false
+        scroll.contentInsetAdjustmentBehavior = .never
         scroll.addSubview(stack)
         view.addSubview(scroll)
 

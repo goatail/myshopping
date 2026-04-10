@@ -32,6 +32,12 @@ final class MainTabBarController: UITabBarController {
         let profileNav = UINavigationController(rootViewController: ProfileViewController())
         profileNav.tabBarItem = makeTabItem(title: "我的", systemName: "person", tag: 3)
 
+        // 避免大标题模式 + 空 title 造成导航栏下方大块空白；各 Tab 根页已用 safeArea 约束，勿再叠加大标题区
+        for nav in [homeNav, favNav, cartNav, profileNav] {
+            nav.navigationBar.prefersLargeTitles = false
+            nav.viewControllers.first?.navigationItem.largeTitleDisplayMode = .never
+        }
+
         viewControllers = [homeNav, favNav, cartNav, profileNav]
 
         cartObserver = NotificationCenter.default.addObserver(

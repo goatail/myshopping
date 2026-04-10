@@ -39,6 +39,7 @@ final class CategoryProductsViewController: UIViewController, UICollectionViewDa
         collectionView.delegate = self
         collectionView.register(ProductGridCell.self, forCellWithReuseIdentifier: ProductGridCell.reuseId)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.contentInsetAdjustmentBehavior = .never
         view.addSubview(collectionView)
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),

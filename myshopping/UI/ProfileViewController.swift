@@ -40,6 +40,8 @@ final class ProfileViewController: UIViewController {
         navigationItem.rightBarButtonItem = nil
 
         scrollView.translatesAutoresizingMaskIntoConstraints = false
+        // 主 ScrollView 已贴 safeArea；关闭自动 contentInset，避免与 safeArea 重复计入顶部空白
+        scrollView.contentInsetAdjustmentBehavior = .never
         view.addSubview(scrollView)
 
         contentStack.axis = .vertical

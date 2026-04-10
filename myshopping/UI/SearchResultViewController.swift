@@ -82,6 +82,7 @@ final class SearchResultViewController: UIViewController, UICollectionViewDataSo
         collectionView.delegate = self
         collectionView.register(ProductGridCell.self, forCellWithReuseIdentifier: ProductGridCell.reuseId)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.contentInsetAdjustmentBehavior = .never
 
         view.addSubview(filterStack)
         view.addSubview(collectionView)

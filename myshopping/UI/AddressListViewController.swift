@@ -81,7 +81,19 @@ final class AddressListViewController: UIViewController, UITableViewDataSource, 
         let a = addresses[indexPath.row]
         cell.textLabel?.numberOfLines = 0
         cell.textLabel?.text = a.displayText() + (a.isDefault ? "\n【默认】" : "")
-        cell.accessoryType = .disclosureIndicator
+        if !selectMode && !a.isDefault {
+            let deleteButton = UIButton(type: .system)
+            deleteButton.setTitle("删除", for: .normal)
+            deleteButton.setTitleColor(.systemRed, for: .normal)
+            deleteButton.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+            deleteButton.tag = indexPath.row
+            deleteButton.addTarget(self, action: #selector(deleteButtonTapped(_:)), for: .touchUpInside)
+            cell.accessoryType = .none
+            cell.accessoryView = deleteButton
+        } else {
+            cell.accessoryView = nil
+            cell.accessoryType = .disclosureIndicator
+        }
         return cell
     }
 
@@ -104,23 +116,35 @@ final class AddressListViewController: UIViewController, UITableViewDataSource, 
                 done(false)
                 return
             }
-            if address.isDefault {
-                let ac = UIAlertController(title: "提示", message: "默认地址不能删除", preferredStyle: .alert)
-                ac.addAction(UIAlertAction(title: "确定", style: .default) { _ in done(true) })
-                self.present(ac, animated: true)
-                return
-            }
-            let confirm = UIAlertController(title: "删除地址", message: "确定要删除该收货地址吗？", preferredStyle: .alert)
-            confirm.addAction(UIAlertAction(title: "取消", style: .cancel) { _ in done(true) })
-            confirm.addAction(UIAlertAction(title: "删除", style: .destructive) { _ in
-                AddressManager.removeAddress(address.id)
-                self.addresses = AddressManager.getAllAddresses()
-                tableView.reloadData()
-                done(true)
-            })
-            self.present(confirm, animated: true)
+            self.confirmDelete(address: address, tableView: tableView, completion: done)
         }
         return UISwipeActionsConfiguration(actions: [delete])
+    }
+
+    @objc private func deleteButtonTapped(_ sender: UIButton) {
+        let idx = sender.tag
+        guard idx >= 0, idx < addresses.count else { return }
+        confirmDelete(address: addresses[idx], tableView: tableView, completion: nil)
+    }
+
+    private func confirmDelete(address: Address, tableView: UITableView, completion: ((Bool) -> Void)?) {
+        if address.isDefault {
+            let ac = UIAlertController(title: "提示", message: "默认地址不能删除", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "确定", style: .default) { _ in completion?(true) })
+            present(ac, animated: true)
+            return
+        }
+        let confirm = UIAlertController(title: "删除地址", message: "确定要删除该收货地址吗？", preferredStyle: .alert)
+        confirm.addAction(UIAlertAction(title: "取消", style: .cancel) { _ in completion?(true) })
+        confirm.addAction(UIAlertAction(title: "删除", style: .destructive) { _ in
+            AddressManager.removeAddress(address.id)
+            self.addresses = AddressManager.getAllAddresses()
+            tableView.reloadData()
+            self.emptyStack.isHidden = !self.addresses.isEmpty
+            tableView.isHidden = self.addresses.isEmpty
+            completion?(true)
+        })
+        present(confirm, animated: true)
     }
 
     @objc private func addAddress() {
